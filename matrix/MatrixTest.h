@@ -19,10 +19,23 @@ class MatrixTestSuite : public CxxTest::TestSuite
 		TS_ASSERT( m.cols() == cols );
 	}
 	
+	void correct_rows_columns ( const Matrix & m1, const Matrix & m2)
+	{
+		correct_rows_columns ( m1, m2.rows(), m2.cols());
+	}
+	
 	Matrix a_matrix_3by2() {    // [ 1 3 5 ]
         Matrix m;               // [ 0 2 0 ]
         std::stringstream s("  [ 1 3 5 ; 0 2 0 ]");
         s >> m;
+        return m;
+    }
+    
+    Matrix matrix_by_string(const std::string & s)
+    {
+        Matrix m;
+        std::stringstream ss(s);
+        ss >> m;
         return m;
     }
     
@@ -40,7 +53,9 @@ public:
 	 */
 	void testDefaultConstructor ( )
 	{
-		// TODO
+		Matrix m1;
+		TS_ASSERT( m1.rows() == 0);
+		TS_ASSERT(m1.cols() == 0);
 	}
 	
 	void testIntIntConstructor ( )
@@ -54,7 +69,14 @@ public:
 	
 	void testCopyConstructor ( )
 	{
-		// TODO:
+		Matrix m1 = a_matrix_3by2();
+		Matrix m2(m1);
+		
+		correct_rows_columns(m2, m1);
+		
+		for (int i = 0; i < m1.rows(); ++i)
+			for (int j = 0; j < m1.cols(); ++j)
+				TS_ASSERT(m1[i][j] == m2[i][j]);
 	}
 	
 	void testIntConstructor ( )
@@ -156,12 +178,17 @@ public:
     
     void testMultiplication ( )
     {
-    	// TODO:
+    	const Matrix m1 = matrix_by_string("[ 1 0 ; 0 1 ]");
     }
     
     void testScalarMultiplication ( )
     {
-    	// TODO:
+    	const Matrix m1 = a_matrix_3by2();
+    	Matrix m2 = m1 * 3;
+    	correct_rows_columns(m2, m1);
+    	for (int i = 0; i < m1.rows(); ++i)
+    		for (int j = 0; j < m1.cols(); ++j)
+    			TS_ASSERT(m2[i][j] == m1[i][j]*3);
     }
     
     void testSubtraction ( ) 

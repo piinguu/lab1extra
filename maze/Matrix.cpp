@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <vector>
 #include <stdlib.h>
-
+#include <string.h>
 
 /********************************************************
  * functions used for the maze solver
@@ -66,7 +66,7 @@ bool Matrix::solve()
         }
     }
     
-    // Börja traversera från (start_row, start_col). Göra en DSF/BFS/Dijkstra...
+    // Börja traversera från (start_row, start_col). Göra en DFS/BFS/Dijkstra...
     (*this)[start_row][start_col] = '.';
     return DFS(start_row, start_col);
 }
@@ -86,14 +86,8 @@ bool Matrix::DFS(int x, int y)
     
     (*this)[x][y] = '-'; // Mark as part of path
     
-    // Try to go down
-    if ( DFS(x+1, y) )
-        return true;
-    if ( DFS(x, y+1) )
-        return true;
-    if ( DFS(x-1, y) )
-        return true;
-    if ( DFS(x, y-1) )
+    // Try to go somewhere
+    if ( DFS(x+1, y) || DFS(x, y+1)  || DFS(x-1, y) || DFS(x, y-1) )
         return true;
     
     // else, this way did not lead to the exit, mark as a walkable cell but not as part of the path.
