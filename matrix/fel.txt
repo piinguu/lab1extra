@@ -1,0 +1,38 @@
+Matrix01.o:
+
+
+Matrix02.o:
+Tilldelning verkar va knajso
+
+Hanterar addition på fel sätt.
+Resultatet av addition av 2 st 3x2-matriser ger en 2x2-matris som resultat.
+
+Addition av två a_matrix_3by2() matriser ger matrisen: [ 2 6 
+													   ; 0 4 ]
+istället för matrisen: [ 2 6 10
+					   ; 0 4 0  ]
+    	 
+Matrix03.o:
+
+Matrix04.o:
+
+Matrix05.o:
+Hanterar addition på fel sätt.
+Resultatet av addition av 2 st 3x2-matriser ger en 3x2-matris tillbaka
+där sista kolumnens celler alla är 0.
+
+Addition av två a_matrix_3by2() matriser ger matrisen: [ 2 6 0
+													   ; 0 4 0 ]
+istället för matrisen: [ 2 6 10
+					   ; 0 4 0  ]
+    	 
+Matrix06.o:
+
+Matrix07.o:
+
+Matrix08.o:
+
+Matrix09.o:
+Hanterar addition av icke kvadradista matriser på fel sätt.
+Additionen går ej att genomföra, det kastas out_of_range exception
+
