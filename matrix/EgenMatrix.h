@@ -1,4 +1,3 @@
-
 #ifndef DD2387_labb1__Matrix
 #define DD2387_labb1__Matrix
 
