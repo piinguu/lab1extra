@@ -1,6 +1,6 @@
 # Change these
 cxxtestpath = /info/cprog11/cxxtest/
-testcode    = example_test.h
+testcode    = MatrixTest.h
 
 testcode.cpp: $(testcode)
 	python $(cxxtestpath)cxxtestgen.py --error-printer -o testcode.cpp $(testcode)

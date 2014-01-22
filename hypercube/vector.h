@@ -157,11 +157,11 @@ private:
 template <class T>
 Vector<T>::Vector(size_t size) :
     vec_size(size),
-    vec_capacity(10+size),
-    buffer(new T[10+size])
+    vec_capacity(size),
+    buffer(new T[size])
 {
     for (size_t i=0; i<size; ++i)
-        buffer[i] = T();
+        buffer[i] = T(size);
 }
 
 /*
@@ -170,8 +170,8 @@ Vector<T>::Vector(size_t size) :
 template <class T>
 Vector<T>::Vector(const size_t size, T & value) :
     vec_size(size),
-    vec_capacity(10+size),
-    buffer(new T[30])
+    vec_capacity(size),
+    buffer(new T[size])
 {
     for (size_t i=0; i<size; ++i)
         buffer[i] = value;
