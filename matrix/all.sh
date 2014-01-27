@@ -1,6 +1,6 @@
 make testcode.cpp
 
-for i in `seq 1 9`
+for i in 2 6 9
 do
 	make runtest0$i > testlog0$i.txt
 	if grep -q .OK! testlog0$i.txt; then

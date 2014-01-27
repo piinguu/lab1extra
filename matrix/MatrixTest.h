@@ -1,7 +1,7 @@
 #ifndef MATRIX_TEST_H_INCLUDED
 #define MATRIX_TEST_H_INCLUDED
 
-#include "Matrix.h"
+#include "EgenMatrix.h"
 #include "/info/cprog09/cxxtest/cxxtest/TestSuite.h"
 #include <fstream>
 #include <sstream>
@@ -150,7 +150,19 @@ public:
     
 	void testAssignment ( )
 	{
-		// TODO
+		//Arrange
+		Matrix m1(2);
+		Matrix m2 = matrix_by_string("[ 4 2 0 ; 9 4 2 ; 30 3 -1 ]");
+		Matrix m3 = matrix_by_string("[ 1 3 5 ; 0 2 0 ]");
+		Matrix m4;
+		
+		//Act
+		m1 = m2;
+		m4 = m3;
+		
+		//Assert
+		identical (m1, m2);
+		identical (m4, m3);
 	}
 	
     void testAddition ( )
@@ -170,6 +182,28 @@ public:
     	
     	//Act and assert
     	identical(m2 + m1, "[ 1 13 18 ; 14 -1 -8 ]");
+    }
+    
+    void testMoreAddition ( )
+    {
+    	//Arrange
+    	Matrix m1(2,1);
+        m1 = a_matrix_3by2();
+        Matrix m2(2,1);
+        m2 = a_matrix_3by2();
+        
+        //Pre-assert
+        std::cout << "\nPre-assert...";
+        correct_rows_columns(m1, 2, 3);
+        std::cout << "_";
+        correct_rows_columns(m2, 2, 3);
+        std::cout << "done.\n";
+        
+        //Act
+        Matrix m3 = m1 + m2;
+        
+        //Assert
+        identical (m3, "[ 2 6 10 ; 0 4 0 ]");
     }
     
     void testMultiplication ( )
