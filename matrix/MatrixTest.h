@@ -1,7 +1,7 @@
 #ifndef MATRIX_TEST_H_INCLUDED
 #define MATRIX_TEST_H_INCLUDED
 
-#include "EgenMatrix.h"
+#include "Matrix.h"
 #include "/info/cprog09/cxxtest/cxxtest/TestSuite.h"
 #include <fstream>
 #include <sstream>
@@ -165,6 +165,15 @@ public:
 		identical (m4, m3);
 	}
 	
+	void testAssignLarger ( )
+	{
+		//Arrange
+		Matrix m1(2);
+		
+		//Act
+		m1 = matrix_by_string("[ 1 2 3 ; 1 4 5 ; 1 0 -1 ]");
+	}
+	
     void testAddition ( )
     {
     	// Test av kvadratiska matriser
@@ -184,26 +193,19 @@ public:
     	identical(m2 + m1, "[ 1 13 18 ; 14 -1 -8 ]");
     }
     
+    /* Tests that matrices initialized with a small size and then assigned
+     * matrix of a larger size can be used for addition.
+     */
     void testMoreAddition ( )
     {
     	//Arrange
-    	Matrix m1(2,1);
+    	Matrix m1(1);
         m1 = a_matrix_3by2();
         Matrix m2(2,1);
         m2 = a_matrix_3by2();
         
-        //Pre-assert
-        std::cout << "\nPre-assert...";
-        correct_rows_columns(m1, 2, 3);
-        std::cout << "_";
-        correct_rows_columns(m2, 2, 3);
-        std::cout << "done.\n";
-        
-        //Act
-        Matrix m3 = m1 + m2;
-        
         //Assert
-        identical (m3, "[ 2 6 10 ; 0 4 0 ]");
+        TS_ASSERT_THROWS_NOTHING(m1 + m2);
     }
     
     void testMultiplication ( )
@@ -220,6 +222,35 @@ public:
 		//Assert
 		identical(m2, "[ 1 0 ; 0 1 ]");
 		identical(n3, "[ 22 68 ; -19 53 ]");
+		TS_ASSERT_THROWS_ANYTHING(m1 * n2);
+    }
+    
+    void testMultiplicationAgain ( )
+    {
+    	//Arrange
+    	Matrix m1 = matrix_by_string("[ 4 ]");
+    	Matrix m2 = matrix_by_string("[ 2 4 -1 ]");
+    	
+    	//Act
+    	m2 = m1 * m2;
+    	
+    	//Assert
+    	identical(m2, "[ 8 16 -4 ]");
+    }
+    
+    void testTranspose ( )
+    {
+    	//Arrange
+    	Matrix m1 = matrix_by_string("[ 3 4 ; 2 -2 ]");
+    	Matrix m2 = matrix_by_string("[ 3 4 1 ; 2 1 3 ]");
+    	
+    	//Act
+    	m1.transpose();
+    	m2.transpose();
+    	
+    	//Assert
+    	identical(m1, "[ 3 2 ; 4 -2 ]");
+    	identical(m2, "[ 3 2 ; 4 1 ; 1 3 ]");
     }
     
     void testScalarMultiplication ( )
@@ -273,6 +304,18 @@ public:
     	
     	//Assert
     	identical( m1, "[ 2 1 8 ; 1 3 3 ]");
+    }
+    
+    
+    void testOutOfRange ( )
+    {
+    	//Arrange
+    	Matrix m1 = matrix_by_string("[ 2 1 2 ; 1 2 1 ]");
+    	
+    	//Assert
+    	TS_ASSERT_THROWS_NOTHING(m1[0][0]); //indexing within bounds is OK
+    	TS_ASSERT_THROWS_ANYTHING(m1[2][0]); //row doesn't exist
+    	TS_ASSERT_THROWS_ANYTHING(m1[1][3]); //col doesn't exist
     }
 };
 
